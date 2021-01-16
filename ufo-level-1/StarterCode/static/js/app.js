@@ -1,42 +1,42 @@
-// from data.js
 var tableData = data;
-
+console.log(tableData);
 //console.log(tableData);
 // YOUR CODE HERE!
+var tbody = d3.select("tbody");
 
-//creating references
-var $tbody = d3.select("tbody");
+tableData.forEach(function(ufo){
+    console.log(ufo);
+    var row = tbody.append("tr");
+    
+    Object.entries(ufo).forEach(function([key,value])
+    {console.log(key,value);
+
+        var cell = row.append("td");
+        cell.text(value);
+    })
+})
+
 var button = d3.select("#filter-btn");
-var inputFeildDate = d3.select("#datetime");
-var inputFieldCity = d3.select("#city");
-var columns = ["datetime", "city", "state", "country", "comments"]
-
-var addData = (dataInput) => {
-    dataInput.forEach(ufoSightings =>{
-        var row = $tbody.append("tr");
-        columns.forEach(column => row.append("td").text(ufoSightings[column])
-        )
-    });
-
-}
-
-addData(tableData);
-
-//creating event listener for the button
-//setting up filter button 
-
-button.on("click", () => {
+button.on("click", function(){
+    d3.select("tbody").html("");
     d3.event.preventDefault();
 
-    var inputDate = inputFeildDate.property("value").trim();
-    //console.log(inputDate)
-    
+    var dateTime = d3.select("#datetime").property("value");
+    console.log(dateTime);
 
+    var filteredData = tableData.filter(record=>record.datetime===dateTime);
+    console.log(filteredData);
 
+    filteredData.forEach(function(selections){
+        console.log(selections);
 
+        var row = tbody.append("tr");
 
-}
+        Object.entries(selections).forEach(function([key, value]){
+            console.log(key,value);
 
-
-
-)
+            var cell = row.append("td");
+            cell.text(value);
+        });
+    });
+});
